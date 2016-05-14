@@ -5,6 +5,7 @@ class Player
   attr_reader :display
 
   def initialize(board)
+    puts "initializing player"
     @display = board.display
   end
 

@@ -25,22 +25,25 @@ class Pawn < Piece
 
   def to_s
     if @color == :w
-      "\u{2659} "
+      " \u{2659} "
     else
-      "\u{265F} "
+      " \u{265F} "
     end
   end
 
   def find_moves
     moves = []
-    # debugger
+    # puts "find_moves pawn"
     self.dirs_can_move.each.with_index do |dir, idx|
+      # debugger
       x_dir, y_dir = dir
       x, y = self.pos
 
       x = x + x_dir
       y = y + y_dir
+
       new_pos = [x, y]
+      # puts "#{new_pos[0]}, #{new_pos[1]}"
       piece_in_new_pos = self.board[new_pos]
 
       next unless self.board.in_bounds?(new_pos)

@@ -5,9 +5,9 @@ class Rook < Piece
 
   def to_s
     if @color == :w
-      "\u{2656} "
+      " \u{2656} "
     else
-      "\u{265C} "
+      " \u{265C} "
     end
   end
 

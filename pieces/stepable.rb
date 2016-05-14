@@ -23,8 +23,8 @@ module Stepable
  ]
 
   def find_moves
+    # puts "find_moves stepable"
     moves = []
-    # debugger
     self.dirs_can_move.each do |dir|
       x_dir, y_dir = dir
       x, y = self.pos

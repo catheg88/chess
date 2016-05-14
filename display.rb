@@ -31,15 +31,16 @@ class Display
     elsif [i, j] == @cursor_pos_selected
       { background: :red }
     elsif (i + j).odd?
-      { background: :magenta }
+      { background: :black }
     else
-      { background: :green }
+      { background: :white }
     end
   end
 
   def render
+    puts "display.render"
     system("clear")
-    puts "Arrow keys, WASD, or vim to move, space or enter to confirm."
+    puts "Arrow keys or WASD to move, space or enter to confirm."
     puts "In check White: #{@board.in_check?(@board, :w)}"
     puts "In check Black: #{@board.in_check?(@board, :b)}"
     puts "In checkmate White: #{@board.checkmate?(:b)}"

@@ -4,9 +4,9 @@ class Queen < Piece
 
   def to_s
     if @color == :w
-      "\u{2655} "
+      " \u{2655} "
     else
-      "\u{265B} "
+      " \u{265B} "
     end
   end
 

@@ -1,11 +1,11 @@
 class Bishop < Piece
   include Slideable
-  
+
   def to_s
     if @color == :w
-      "\u{2657} "
+      " \u{2657} "
     else
-      "\u{265D} "
+      " \u{265D} "
     end
   end
 

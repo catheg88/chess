@@ -9,7 +9,7 @@ class Null < Piece
   end
 
   def to_s
-    "  "
+    "   "
   end
 
   def opposite_color
