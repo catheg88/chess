@@ -59,7 +59,9 @@ module Cursorable
 
   def cursor_action
     if @cursor_pos_selected
-      @board.move(@cursor_pos_selected, @cursor_pos, :w)
+      color_selected = @board.grid[@cursor_pos_selected[1]][@cursor_pos_selected[0]].color
+      @board.grid[1,1]
+      @board.move(@cursor_pos_selected, @cursor_pos, color_selected)
       @cursor_pos_selected = false
     else
       cursor_pos_selected

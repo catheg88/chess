@@ -1,11 +1,11 @@
-require "byebug"
-
 class Board
   attr_reader :grid, :display
+  attr_accessor :current_player
 
   def initialize(fill = true)
     @grid = Array.new(8) { Array.new(8) {Null.new} }
     @display = Display.new(self)
+    @current_player = :w
     populate if fill
   end
 
@@ -20,7 +20,6 @@ class Board
   end
 
   def populate
-    puts "populating board"
     @grid[0] = [Rook.new(:w), Knight.new(:w), Bishop.new(:w),
       Queen.new(:w), King.new(:w), Bishop.new(:w), Knight.new(:w), Rook.new(:w)]
     @grid[1] = Array.new(8) {Pawn.new(:w)}
@@ -34,7 +33,7 @@ class Board
     end
   end
 
-  def move!(board, start, end_pos, color)
+  def move!(board, start, end_pos)
     board[end_pos] = board[start]
     board[start] = Null.new
     #piece
@@ -42,18 +41,25 @@ class Board
     board
   end
 
+  def switch_turn
+    if @current_player == :w
+      @current_player = :b
+    else
+      @current_player = :w
+    end
+  end
+
   def move(start, end_pos, color)
-    # begin
-      # if valid_moves(:w).include?([start, end_pos])
-      #   break
-      # else
-      #   puts "nah you can't move that there "
-      # end
-      raise "no piece bro" if self[start].is_empty?
-      raise 'invalid move' if start === end_pos
-    # rescue
-    #   move(start, end_pos, color)
-    # end
+
+    if valid_moves(color).include?([start, end_pos]) === false
+      raise "can't move that there"
+    elsif self[start].is_empty?
+      raise "no piece bro"
+    elsif start === end_pos
+      raise "you\'re not going anywhere..."
+    elsif @current_player != @grid[start[1]][start[0]].color
+      raise "not yer turn"
+    end
 
     #board
     self[end_pos] = self[start]
@@ -61,6 +67,7 @@ class Board
     #piece
     self[end_pos].pos = end_pos
     self
+    switch_turn
   end
 
   def in_bounds?(pos)
@@ -69,6 +76,8 @@ class Board
   end
 
   def in_check?(board, color)
+
+
     king_pos = find_king(board, color)
     other_teams_moves(board, color).any? do |start, end_pos|
       king_pos == end_pos
@@ -112,7 +121,7 @@ class Board
     valid_moves = []
     dup_board = dup_board(self)
     other_teams_moves(dup_board, color_opp).each do |start, end_pos|
-      dup_board = dup_board.move!(dup_board, start, end_pos, color_opp)
+      dup_board = dup_board.move!(dup_board, start, end_pos)
       if move_into_check?(dup_board, color)
         dup_board = dup_board(self)
         next
@@ -121,11 +130,8 @@ class Board
         dup_board = dup_board(self)
       end
     end
-
-    puts "#{color}'s valid_moves #{valid_moves}"
     valid_moves
   end
-
 
   def checkmate?(color)
     if color === :b
@@ -149,14 +155,6 @@ class Board
   end
 
   def move_into_check?(dup_board, color)
-    # dup_board.grid.each do |row|
-    #   row_arr = []
-    #   row.each do |piece|
-    #     row_arr << piece
-    #   end
-    #   puts row_arr.join(" ")
-    # end
-
     dup_board.in_check?(dup_board, color)
   end
 

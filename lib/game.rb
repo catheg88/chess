@@ -1,13 +1,20 @@
-require_relative "pieces.rb"
-require_relative "board.rb"
-require_relative "display.rb"
-require_relative "player.rb"
-# require "byebug"
+require_relative "pieces"
+require_relative "board"
+require_relative "display"
+require_relative "player"
 
 class Game
   def initialize
     @board = Board.new
     @player = Player.new(@board)
+  end
+
+  def switch_turn
+    if @board.current_player == :w
+      @board.current_player = :b
+    else
+      @board.current_player = :w
+    end
   end
 
   def run
@@ -18,8 +25,6 @@ class Game
   end
 end
 
-
 if __FILE__ == $PROGRAM_NAME
-  puts "running Game.new"
   Game.new.run
 end

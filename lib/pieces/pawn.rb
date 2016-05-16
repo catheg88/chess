@@ -1,4 +1,5 @@
 require "colorize"
+require 'byebug'
 class Pawn < Piece
 
   PAWN_W = [
@@ -33,9 +34,7 @@ class Pawn < Piece
 
   def find_moves
     moves = []
-    # puts "find_moves pawn"
     self.dirs_can_move.each.with_index do |dir, idx|
-      # debugger
       x_dir, y_dir = dir
       x, y = self.pos
 
@@ -43,10 +42,9 @@ class Pawn < Piece
       y = y + y_dir
 
       new_pos = [x, y]
-      # puts "#{new_pos[0]}, #{new_pos[1]}"
+      next unless self.board.in_bounds?(new_pos)
       piece_in_new_pos = self.board[new_pos]
 
-      next unless self.board.in_bounds?(new_pos)
 
       case idx
 
@@ -58,6 +56,11 @@ class Pawn < Piece
         next if piece_in_new_pos.color == self.color || piece_in_new_pos.is_empty?
       when 3 # fwd 2 from starting pos
         next unless piece_in_new_pos.is_empty?
+        if self.color === :w
+          next unless self.board[[new_pos[0], new_pos[1] - 1]].is_empty?
+        else
+          next unless self.board[[new_pos[0], new_pos[1] + 1]].is_empty?
+        end
 
         if @color == :w
           next unless self.pos[1] == 1
@@ -68,7 +71,6 @@ class Pawn < Piece
 
       moves << [self.pos, new_pos]
     end
-   # debugger
    moves
   end
 

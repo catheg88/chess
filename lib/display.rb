@@ -38,7 +38,6 @@ class Display
   end
 
   def render
-    puts "display.render"
     system("clear")
     puts "Arrow keys or WASD to move, space or enter to confirm."
     puts "In check White: #{@board.in_check?(@board, :w)}"

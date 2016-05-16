@@ -1,10 +1,10 @@
 require_relative "display"
 
-
 class Player
   attr_reader :display
 
   def initialize(board)
+    @board = board
     @display = board.display
   end
 

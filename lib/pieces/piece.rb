@@ -24,10 +24,5 @@ class Piece
       :w
     end
   end
-  # def moves
-  #   self.class
-  #
-  #
-  # end
 
 end
