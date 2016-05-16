@@ -32,7 +32,7 @@ class Pawn < Piece
     end
   end
 
-  def find_moves
+  def find_moves(board = self.board)
     moves = []
     self.dirs_can_move.each.with_index do |dir, idx|
       x_dir, y_dir = dir
@@ -42,8 +42,8 @@ class Pawn < Piece
       y = y + y_dir
 
       new_pos = [x, y]
-      next unless self.board.in_bounds?(new_pos)
-      piece_in_new_pos = self.board[new_pos]
+      next unless board.in_bounds?(new_pos)
+      piece_in_new_pos = board[new_pos]
 
 
       case idx

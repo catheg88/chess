@@ -22,7 +22,7 @@ module Stepable
    [ 2,  1]
  ]
 
-  def find_moves
+  def find_moves(board = self.board)
     moves = []
     self.dirs_can_move.each do |dir|
       x_dir, y_dir = dir
@@ -32,9 +32,9 @@ module Stepable
       y = y + y_dir
       new_pos = [x, y]
 
-      next unless self.board.in_bounds?(new_pos)
+      next unless board.in_bounds?(new_pos)
 
-      piece_in_new_pos = self.board[new_pos]
+      piece_in_new_pos = board[new_pos]
       unless piece_in_new_pos.is_empty?
         next if piece_in_new_pos.color == self.color
       end

@@ -76,8 +76,6 @@ class Board
   end
 
   def in_check?(board, color)
-
-
     king_pos = find_king(board, color)
     other_teams_moves(board, color).any? do |start, end_pos|
       king_pos == end_pos
@@ -94,6 +92,7 @@ class Board
   end
 
   def other_teams_moves(board, color)
+
     other_team_pieces = []
     board.grid.each.with_index do |row, y|
       row.each.with_index do |col, x|
@@ -104,11 +103,10 @@ class Board
 
     other_teams_moves = []
     other_team_pieces.each do |piece|
-      piece.find_moves.each do |move|
+      piece.find_moves(board).each do |move|
         other_teams_moves << move
       end
     end
-
     other_teams_moves
   end
 

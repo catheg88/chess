@@ -14,7 +14,7 @@ module Slideable
     [-1, -1]
   ]
 
-  def find_moves
+  def find_moves(board = self.board)
     moves = []
     self.dirs_can_move.each do |dir|
       x_dir, y_dir = dir
@@ -24,9 +24,9 @@ module Slideable
         y = y + y_dir
         new_pos = [x, y]
 
-        break unless self.board.in_bounds?(new_pos)
+        break unless board.in_bounds?(new_pos)
 
-        piece_in_new_pos = self.board[new_pos]
+        piece_in_new_pos = board[new_pos]
         unless piece_in_new_pos.is_empty?
           break if piece_in_new_pos.color == self.color
           moves << [self.pos, new_pos]
