@@ -6,21 +6,15 @@ require_relative "player.rb"
 
 class Game
   def initialize
-    puts "making new game"
     @board = Board.new
     @player = Player.new(@board)
-    @x = 0
   end
 
   def run
-    puts "Game.new.run"
     until @board.checkmate?(:w) || @board.checkmate?(:b)
-      @x += 1
-      puts "in the run until, #{@x}"
       pos = @player.move
-
     end
-    puts "checkmate"
+    puts "Checkmate!"
   end
 end
 

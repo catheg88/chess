@@ -1,11 +1,9 @@
 require "byebug"
 
-
 class Board
   attr_reader :grid, :display
 
   def initialize(fill = true)
-    puts "initializing board"
     @grid = Array.new(8) { Array.new(8) {Null.new} }
     @display = Display.new(self)
     populate if fill
@@ -45,17 +43,17 @@ class Board
   end
 
   def move(start, end_pos, color)
-
-    # if valid_moves(:w).include?([start, end_pos])
-    #   break
-    # else
-    #   puts "nah you can't move that there "
+    # begin
+      # if valid_moves(:w).include?([start, end_pos])
+      #   break
+      # else
+      #   puts "nah you can't move that there "
+      # end
+      raise "no piece bro" if self[start].is_empty?
+      raise 'invalid move' if start === end_pos
+    # rescue
+    #   move(start, end_pos, color)
     # end
-
-    raise "no piece bro" if self[start].is_empty?
-    raise 'invalid move' if start === end_pos
-
-
 
     #board
     self[end_pos] = self[start]
@@ -87,7 +85,6 @@ class Board
   end
 
   def other_teams_moves(board, color)
-    # puts "other_team_pieces"
     other_team_pieces = []
     board.grid.each.with_index do |row, y|
       row.each.with_index do |col, x|
@@ -107,15 +104,21 @@ class Board
   end
 
   def valid_moves(color)
-    puts "valid moves, #{color}"
+    if color === :b
+      color_opp = :w
+    else
+      color_opp = :b
+    end
     valid_moves = []
     dup_board = dup_board(self)
-    other_teams_moves(dup_board, color).each do |start, end_pos|
-      dup_board = dup_board.move!(dup_board, start, end_pos, color)
+    other_teams_moves(dup_board, color_opp).each do |start, end_pos|
+      dup_board = dup_board.move!(dup_board, start, end_pos, color_opp)
       if move_into_check?(dup_board, color)
+        dup_board = dup_board(self)
         next
       else
         valid_moves << [start, end_pos]
+        dup_board = dup_board(self)
       end
     end
 
@@ -125,13 +128,16 @@ class Board
 
 
   def checkmate?(color)
-    puts "board checkmate?"
-    return true if valid_moves(color).empty?
+    if color === :b
+      color_opp = :w
+    else
+      color_opp = :b
+    end
+    return true if valid_moves(color_opp).empty?
     false
   end
 
   def dup_board(board)
-    puts "duping board"
     new_board = Board.new(false)
     @grid.each.with_index do |row, y|
       row.each.with_index do |col, x|
@@ -142,9 +148,15 @@ class Board
     new_board
   end
 
-
-
   def move_into_check?(dup_board, color)
+    # dup_board.grid.each do |row|
+    #   row_arr = []
+    #   row.each do |piece|
+    #     row_arr << piece
+    #   end
+    #   puts row_arr.join(" ")
+    # end
+
     dup_board.in_check?(dup_board, color)
   end
 

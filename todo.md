@@ -12,3 +12,8 @@ class NullPiece
 - if a king is in check and an opposing pawn is adjacent, it errors out while checking each piece's options
 
 - valid move allows a pawn to move 2 steps initially, even if it's through a piece
+
+
+
+works:
+-in_check?

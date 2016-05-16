@@ -34,8 +34,13 @@ module Cursorable
   }
 
   def get_input
-    key = KEYMAP[read_char]
-    handle_key(key)
+    begin
+      key = KEYMAP[read_char]
+      handle_key(key)
+    rescue
+      @cursor_pos_selected = false
+      retry
+    end
   end
 
   def handle_key(key)
@@ -53,7 +58,6 @@ module Cursorable
   end
 
   def cursor_action
-    # debugger
     if @cursor_pos_selected
       @board.move(@cursor_pos_selected, @cursor_pos, :w)
       @cursor_pos_selected = false
